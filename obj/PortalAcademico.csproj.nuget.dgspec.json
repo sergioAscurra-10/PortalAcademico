@@ -65,10 +65,6 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.9, )"
-            },
-            "Microsoft.Extensions.Caching.StackExchangeRedis": {
-              "target": "Package",
-              "version": "[9.0.9, )"
             }
           },
           "imports": [

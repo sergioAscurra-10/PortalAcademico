@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortalAcademico.Data; // Asumiendo que tu DbContext está en esta carpeta
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text.Json;
+using PortalAcademico.Models;
 
 namespace PortalAcademico.Controllers
 {
@@ -9,51 +12,72 @@ namespace PortalAcademico.Controllers
     {
         // Declare and inject the DbContext
         private readonly ApplicationDbContext _context;
-
-        public CursosController(ApplicationDbContext context)
+        private readonly IDistributedCache _cache;
+        public CursosController(ApplicationDbContext context, IDistributedCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
         public async Task<IActionResult> Index(string searchString, int? minCreditos, int? maxCreditos, TimeOnly? horarioInicio)
         {
-            // The ViewData property is inherited from Controller, no need to declare it.
             ViewData["CurrentFilter"] = searchString;
             ViewData["MinCreditos"] = minCreditos;
             ViewData["MaxCreditos"] = maxCreditos;
             ViewData["HorarioInicio"] = horarioInicio?.ToString("HH:mm");
 
-            var cursos = from c in _context.Cursos
-                         where c.Activo
-                         select c;
-
-            if (!String.IsNullOrEmpty(searchString))
+            bool hasFilters = !string.IsNullOrEmpty(searchString) || minCreditos.HasValue || maxCreditos.HasValue || horarioInicio.HasValue;
+            
+            if (hasFilters)
             {
-                cursos = cursos.Where(s => s.Nombre.Contains(searchString) || s.Codigo.Contains(searchString));
+                var cursos = from c in _context.Cursos
+                             where c.Activo
+                             select c;
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    cursos = cursos.Where(s => s.Nombre.Contains(searchString) || s.Codigo.Contains(searchString));
+                }
+
+                if (minCreditos.HasValue)
+                {
+                    if (minCreditos < 0) minCreditos = 0;
+                    cursos = cursos.Where(c => c.Creditos >= minCreditos);
+                }
+
+                if (maxCreditos.HasValue)
+                {
+                    if (maxCreditos < 0) maxCreditos = 0;
+                    cursos = cursos.Where(c => c.Creditos <= maxCreditos);
+                }
+
+                if (horarioInicio.HasValue)
+                {
+                    cursos = cursos.Where(c => c.HorarioInicio >= horarioInicio.Value);
+                }
+
+                var cursosFiltrados = await cursos.AsNoTracking().ToListAsync();
+                return View(cursosFiltrados);
+            }
+            
+            const string cacheKey = "ListaCursosActivos";
+            List<Curso> cursosCache;
+
+            var cachedData = await _cache.GetAsync(cacheKey);
+            if (cachedData != null)
+            {
+                cursosCache = JsonSerializer.Deserialize<List<Curso>>(System.Text.Encoding.UTF8.GetString(cachedData));
+            }
+            else
+            {
+                cursosCache = await _context.Cursos.Where(c => c.Activo).AsNoTracking().ToListAsync();
+                var dataToCache = System.Text.Encoding.UTF8.GetBytes(JsonSerializer.Serialize(cursosCache));
+                var cacheOptions = new DistributedCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
+                await _cache.SetAsync(cacheKey, dataToCache, cacheOptions);
             }
 
-            if (minCreditos.HasValue)
-            {
-                if (minCreditos < 0) minCreditos = 0;
-                cursos = cursos.Where(c => c.Creditos >= minCreditos);
-            }
-
-            if (maxCreditos.HasValue)
-            {
-                if (maxCreditos < 0) maxCreditos = 0;
-                cursos = cursos.Where(c => c.Creditos <= maxCreditos);
-            }
-
-            if (horarioInicio.HasValue)
-            {
-                // This will only work if HorarioInicio in your model is TimeOnly.
-                // It might not be translatable to some database providers.
-                cursos = cursos.Where(c => c.HorarioInicio >= horarioInicio.Value);
-            }
-
-            // Using AsNoTracking() is good for performance on read-only queries
-            return View(await cursos.AsNoTracking().ToListAsync());
-        } 
+            return View(cursosCache);
+        }
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) { return NotFound(); }
