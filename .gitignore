@@ -1,0 +1,32 @@
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de dependencias (Node.js)
+node_modules/
+npm-debug.log*
+
+# Archivos de Python
+__pycache__/
+*.pyc
+.venv/
+
+# Archivos de configuración local y credenciales
+.env
+config.local.js
+
+# Archivos generados automáticamente
+build/
+dist/
+*.log
+*.tmp
+
+# Archivos de pruebas
+.coverage
+.pytest_cache/
