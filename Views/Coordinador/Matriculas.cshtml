@@ -1,0 +1,57 @@
+@model IEnumerable<PortalAcademico.Models.Matricula>
+
+@{
+    ViewData["Title"] = "Matrículas para el curso: " + ViewBag.CursoNombre;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Estudiante (Email)</th>
+            <th>Fecha de Registro</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Usuario.Email)</td>
+                <td>@item.FechaRegistro.ToLocalTime().ToString("g")</td>
+                <td><span class="badge bg-@GetBadgeClass(item.Estado)">@item.Estado</span></td>
+                <td>
+                    @if (item.Estado == EstadoMatricula.Pendiente)
+                    {
+                        <form asp-action="ConfirmarMatricula" method="post" class="d-inline">
+                            <input type="hidden" name="matriculaId" value="@item.Id" />
+                            <input type="hidden" name="cursoId" value="@ViewBag.CursoId" />
+                            <button type="submit" class="btn btn-sm btn-success">Confirmar</button>
+                        </form>
+                        <form asp-action="CancelarMatricula" method="post" class="d-inline">
+                            <input type="hidden" name="matriculaId" value="@item.Id" />
+                            <input type="hidden" name="cursoId" value="@ViewBag.CursoId" />
+                            <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Index" class="btn btn-secondary mt-3">Volver a la lista de cursos</a>
+
+@functions {
+    string GetBadgeClass(EstadoMatricula estado)
+    {
+        return estado switch
+        {
+            EstadoMatricula.Pendiente => "warning",
+            EstadoMatricula.Confirmada => "success",
+            EstadoMatricula.Cancelada => "danger",
+            _ => "secondary"
+        };
+    }
+}
