@@ -2,16 +2,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /source
 
-# Copia primero el archivo .csproj y restaura las dependencias
-# El "./" significa "desde el directorio actual"
-COPY ["PortalAcademico.csproj", "."]
-RUN dotnet restore "./PortalAcademico.csproj"
-
-# Copia el resto de los archivos del proyecto
+# Copia TODO el código fuente de una vez
 COPY . .
-WORKDIR "/source/."
-# Publica la aplicación en modo Release
-RUN dotnet publish "PortalAcademico.csproj" -c Release -o /app/publish --no-restore
+
+# Restaura las dependencias y publica la aplicación en un solo paso
+RUN dotnet publish "PortalAcademico.csproj" -c Release -o /app/publish
 
 # Usa la imagen más ligera del runtime de ASP.NET para ejecutar la aplicación
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
