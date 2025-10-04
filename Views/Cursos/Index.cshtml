@@ -1,0 +1,57 @@
+    @model IEnumerable<PortalAcademico.Models.Curso>
+
+@{
+    ViewData["Title"] = "Catálogo de Cursos";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="row g-3 p-3 border rounded">
+        <div class="col-md-4">
+            <label for="searchString" class="form-label">Buscar por Nombre/Código</label>
+            <input type="text" id="searchString" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <label for="minCreditos" class="form-label">Créditos Mín.</label>
+            <input type="number" id="minCreditos" name="minCreditos" value="@ViewData["MinCreditos"]" class="form-control" min="0" />
+        </div>
+        <div class="col-md-2">
+            <label for="maxCreditos" class="form-label">Créditos Máx.</label>
+            <input type="number" id="maxCreditos" name="maxCreditos" value="@ViewData["MaxCreditos"]" class="form-control" min="0" />
+        </div>
+        <div class="col-md-2">
+            <label for="horarioInicio" class="form-label">Desde Horario</label>
+            <input type="time" id="horarioInicio" name="horarioInicio" value="@ViewData["HorarioInicio"]" class="form-control" />
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Codigo)</th>
+            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+            <th>@Html.DisplayNameFor(model => model.Creditos)</th>
+            <th>Horario</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Codigo)</td>
+                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.Creditos)</td>
+                <td>@item.HorarioInicio.ToString("HH:mm") - @item.HorarioFin.ToString("HH:mm")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
