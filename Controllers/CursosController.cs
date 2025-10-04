@@ -56,18 +56,14 @@ namespace PortalAcademico.Controllers
         } 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) { return NotFound(); }
+            var curso = await _context.Cursos.FirstOrDefaultAsync(m => m.Id == id);
+            if (curso == null) { return NotFound(); }
 
-            var curso = await _context.Cursos
-                .FirstOrDefaultAsync(m => m.Id == id);
-                
-            if (curso == null)
-            {
-                return NotFound();
-            }
+            // --- LÓGICA DE SESIÓN ---
+            HttpContext.Session.SetString("LastVisitedCourseId", curso.Id.ToString());
+            HttpContext.Session.SetString("LastVisitedCourseName", curso.Nombre);
+            // -----------------------
 
             return View(curso);
         }

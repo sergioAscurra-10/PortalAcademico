@@ -37,6 +37,15 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @* --- AÑADE ESTE BLOQUE --- *@
+            @if (Context.Session.GetString("LastVisitedCourseId") != null)
+            {
+                <div class="alert alert-info text-center my-3">
+                    <a href="@Url.Action("Details", "Cursos", new { id = Context.Session.GetString("LastVisitedCourseId") })">
+                        Volver al último curso visitado: <strong>@Context.Session.GetString("LastVisitedCourseName")</strong>
+                    </a>
+                </div>
+            }
             @RenderBody()
         </main>
     </div>
