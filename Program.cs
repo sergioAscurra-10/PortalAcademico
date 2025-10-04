@@ -18,10 +18,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.Configuration = builder.Configuration["Redis:ConnectionString"];
     options.InstanceName = "PortalAcademico_";
 });
-
 // 2. Configurar el servicio de Sesión para que use Redis.
 builder.Services.AddSession(options =>
 {
