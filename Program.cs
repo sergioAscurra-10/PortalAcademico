@@ -50,17 +50,13 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseSession();
-
-app.MapStaticAssets();
+app.UseSession(); // <-- AÑADE LOS PARÉNTESIS Y EL PUNTO Y COMA
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapRazorPages();
 
 using (var scope = app.Services.CreateScope())
 {
