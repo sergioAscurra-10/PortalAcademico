@@ -3,34 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using PortalAcademico.Models;
+using Microsoft.AspNetCore.Identity;
 
-namespace PortalAcademico.Data
+namespace PortalAcademico.Models
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser> // <-- Cambiar aquí
+    public class ApplicationUser : IdentityUser
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public virtual ICollection<Matricula> Matriculas { get; set; }
+
+        public ApplicationUser()
         {
-        }
-
-        public DbSet<Curso> Cursos { get; set; }
-        public DbSet<Matricula> Matriculas { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-
-            // Restricción: Un usuario no puede matricularse dos veces en el mismo curso.
-            builder.Entity<Matricula>()
-                .HasIndex(m => new { m.UsuarioId, m.CursoId })
-                .IsUnique();
-
-            // Restricción: HorarioInicio < HorarioFin
-            builder.Entity<Curso>()
-                .ToTable(b => b.HasCheckConstraint("CK_Curso_Horarios", "[HorarioFin] > [HorarioInicio]"));
+            Matriculas = new List<Matricula>();
         }
     }
 }
