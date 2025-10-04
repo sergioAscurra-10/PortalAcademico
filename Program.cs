@@ -16,12 +16,24 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddStackExchangeRedisCache(options =>
+var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
+
+if (!string.IsNullOrEmpty(redisConnectionString))
 {
-    options.Configuration = builder.Configuration["Redis:ConnectionString"];
-    options.InstanceName = "PortalAcademico_";
-});
-// 2. Configurar el servicio de Sesión para que use Redis.
+    // Si hay una cadena de conexión para Redis en la configuración, úsala.
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = redisConnectionString;
+        options.InstanceName = "PortalAcademico_";
+    });
+}
+else
+{
+    // Si NO hay cadena de conexión, usa el caché en memoria como fallback.
+    builder.Services.AddDistributedMemoryCache();
+}
+
+// La configuración de la Sesión no cambia, usará el caché que se haya registrado.
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
