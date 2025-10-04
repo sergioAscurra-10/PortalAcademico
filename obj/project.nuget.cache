@@ -1,12 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "rqiRVibkkPU=",
-  "success": true,
+  "dgSpecHash": "KV9oB/4RTOQ=",
+  "success": false,
   "projectFilePath": "C:\\Users\\sergi\\PortalAcademico\\PortalAcademico.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sergi\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
-    "C:\\Users\\sergi\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\9.0.7\\microsoft.aspnetcore.cryptography.internal.9.0.7.nupkg.sha512",
-    "C:\\Users\\sergi\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\9.0.7\\microsoft.aspnetcore.cryptography.keyderivation.9.0.7.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.aspnetcore.diagnostics.entityframeworkcore\\9.0.7\\microsoft.aspnetcore.diagnostics.entityframeworkcore.9.0.7.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\9.0.7\\microsoft.aspnetcore.identity.entityframeworkcore.9.0.7.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\9.0.7\\microsoft.aspnetcore.identity.ui.9.0.7.nupkg.sha512",
@@ -35,10 +33,6 @@
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.9\\microsoft.extensions.dependencyinjection.9.0.9.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.9\\microsoft.extensions.dependencyinjection.abstractions.9.0.9.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.extensions.dependencymodel\\9.0.9\\microsoft.extensions.dependencymodel.9.0.9.nupkg.sha512",
-    "C:\\Users\\sergi\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\9.0.7\\microsoft.extensions.fileproviders.abstractions.9.0.7.nupkg.sha512",
-    "C:\\Users\\sergi\\.nuget\\packages\\microsoft.extensions.fileproviders.embedded\\9.0.7\\microsoft.extensions.fileproviders.embedded.9.0.7.nupkg.sha512",
-    "C:\\Users\\sergi\\.nuget\\packages\\microsoft.extensions.identity.core\\9.0.7\\microsoft.extensions.identity.core.9.0.7.nupkg.sha512",
-    "C:\\Users\\sergi\\.nuget\\packages\\microsoft.extensions.identity.stores\\9.0.7\\microsoft.extensions.identity.stores.9.0.7.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.extensions.logging\\9.0.9\\microsoft.extensions.logging.9.0.9.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\9.0.9\\microsoft.extensions.logging.abstractions.9.0.9.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.extensions.options\\9.0.9\\microsoft.extensions.options.9.0.9.nupkg.sha512",
@@ -58,12 +52,41 @@
     "C:\\Users\\sergi\\.nuget\\packages\\system.composition.hosting\\7.0.0\\system.composition.hosting.7.0.0.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\system.composition.runtime\\7.0.0\\system.composition.runtime.7.0.0.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\system.composition.typedparts\\7.0.0\\system.composition.typedparts.7.0.0.nupkg.sha512",
-    "C:\\Users\\sergi\\.nuget\\packages\\system.io.pipelines\\7.0.0\\system.io.pipelines.7.0.0.nupkg.sha512",
+    "C:\\Users\\sergi\\.nuget\\packages\\system.diagnostics.diagnosticsource\\9.0.9\\system.diagnostics.diagnosticsource.9.0.9.nupkg.sha512",
+    "C:\\Users\\sergi\\.nuget\\packages\\system.io.pipelines\\9.0.9\\system.io.pipelines.9.0.9.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\system.reflection.metadata\\7.0.0\\system.reflection.metadata.7.0.0.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\sergi\\.nuget\\packages\\system.text.encodings.web\\9.0.9\\system.text.encodings.web.9.0.9.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\system.text.json\\9.0.9\\system.text.json.9.0.9.nupkg.sha512",
-    "C:\\Users\\sergi\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512"
+    "C:\\Users\\sergi\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512",
+    "C:\\Users\\sergi\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.18\\microsoft.netcore.app.ref.8.0.18.nupkg.sha512",
+    "C:\\Users\\sergi\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.18\\microsoft.windowsdesktop.app.ref.8.0.18.nupkg.sha512",
+    "C:\\Users\\sergi\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.18\\microsoft.aspnetcore.app.ref.8.0.18.nupkg.sha512",
+    "C:\\Users\\sergi\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.18\\microsoft.netcore.app.host.win-x64.8.0.18.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1202",
+      "level": "Error",
+      "message": "El paquete Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 9.0.7 no es compatible con net8.0 (.NETCoreApp,Version=v8.0). El paquete Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 9.0.7 admite: net9.0 (.NETCoreApp,Version=v9.0)",
+      "projectPath": "C:\\Users\\sergi\\PortalAcademico\\PortalAcademico.csproj",
+      "filePath": "C:\\Users\\sergi\\PortalAcademico\\PortalAcademico.csproj",
+      "libraryId": "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1202",
+      "level": "Error",
+      "message": "El paquete Microsoft.AspNetCore.Identity.EntityFrameworkCore 9.0.7 no es compatible con net8.0 (.NETCoreApp,Version=v8.0). El paquete Microsoft.AspNetCore.Identity.EntityFrameworkCore 9.0.7 admite: net9.0 (.NETCoreApp,Version=v9.0)",
+      "projectPath": "C:\\Users\\sergi\\PortalAcademico\\PortalAcademico.csproj",
+      "filePath": "C:\\Users\\sergi\\PortalAcademico\\PortalAcademico.csproj",
+      "libraryId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }
