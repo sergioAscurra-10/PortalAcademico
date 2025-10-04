@@ -1,0 +1,64 @@
+@model PortalAcademico.Models.Curso
+
+@{
+    ViewData["Title"] = "Detalles del Curso";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>@Model.Nombre</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            Código del Curso
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Codigo)
+        </dd>
+        <dt class="col-sm-3">
+            Nombre
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Creditos)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Creditos)
+        </dd>
+        <dt class="col-sm-3">
+            Cupo Máximo
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CupoMaximo)
+        </dd>
+        <dt class="col-sm-3">
+            Horario
+        </dt>
+        <dd class="col-sm-9">
+            @Model.HorarioInicio.ToString("HH:mm") - @Model.HorarioFin.ToString("HH:mm")
+        </dd>
+    </dl>
+</div>
+
+<div class="mt-4">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form asp-controller="Matriculas" asp-action="Inscribirse" method="post">
+            <input type="hidden" name="cursoId" value="@Model.Id" />
+            <button type="submit" class="btn btn-success">Inscribirse en este curso</button>
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Details", "Cursos", new { id = Model.Id })">
+                Debes iniciar sesión para poder inscribirte.
+            </a>
+        </div>
+    }
+    <br/>
+    <a asp-action="Index" class="btn btn-secondary">Volver al Catálogo</a>
+</div>

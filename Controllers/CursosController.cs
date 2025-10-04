@@ -53,6 +53,23 @@ namespace PortalAcademico.Controllers
 
             // Using AsNoTracking() is good for performance on read-only queries
             return View(await cursos.AsNoTracking().ToListAsync());
+        } 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var curso = await _context.Cursos
+                .FirstOrDefaultAsync(m => m.Id == id);
+                
+            if (curso == null)
+            {
+                return NotFound();
+            }
+
+            return View(curso);
         }
     }
 }
