@@ -16,7 +16,12 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDistributedMemoryCache();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "PortalAcademico_";
+});
+
 // 2. Configurar el servicio de Sesión para que use Redis.
 builder.Services.AddSession(options =>
 {
@@ -45,17 +50,13 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseSession();
-
-app.MapStaticAssets();
+app.UseSession(); // <-- AÑADE LOS PARÉNTESIS Y EL PUNTO Y COMA
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapRazorPages();
 
 using (var scope = app.Services.CreateScope())
 {
